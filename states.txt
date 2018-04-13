@@ -1,0 +1,29 @@
+default_state = {
+  addNew: false,
+  sort by: 'all',
+  items: [
+	  {
+	    title: 'bookmark title',
+	    rating: 5,
+	    url: 'http://'
+	    description: 'Long description text',
+	    selected: false,
+	    editMode: false,
+	  },
+  ]
+}
+
+addNew_state = {
+	addNew =  true, 
+	sort by: 'all',
+	items: [
+	  {
+	    title: 'bookmark title',
+	    rating: 5,
+	    url: 'http://'
+	    description: 'Long description text',
+	    selected: false,
+	    editMode: false,
+	  },
+  ]
+}

@@ -1,0 +1,8 @@
+{ 
+    id: 1, 
+    title: 'Article on Cats', 
+    rating: 5, 
+    description: 'This is a webpage about cats.', 
+    url: 'http://www.cats.com' 
+}
+
