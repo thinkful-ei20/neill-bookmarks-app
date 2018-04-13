@@ -49,6 +49,10 @@ const bookmarkList = (function () {
         console.log('render ran');
         const bookmarkListString = generateBookmarkItemsString(items);
         $('.js-bookmark-list').html(bookmarkListString);
+
+        // reassign items 42-50 new smaller (filtered array) is what gets filtered -> rendered
+
+
     }
 
 
@@ -124,14 +128,12 @@ const bookmarkList = (function () {
 
     function filterByRating() {
         $('.container').on('click', '.select-rating-filter', event => {
-            console.log('filterByRating clicked');
-            const filterValue = $('.select-rating-filter option:selected').val();
-            console.log(filterValue);
+            const filterValue = +$('.select-rating-filter option:selected').val();
+            store.filterLevel = filterValue;
+            render();
+
         });
     }
-
-
-
 
 
     function bindEventListeners() {
@@ -141,7 +143,6 @@ const bookmarkList = (function () {
         handleCreateBookmark();
         generateCreateBookmarkForm();
         handleCreateFormSubmit();
-        // verifyFormSubmit();
         filterByRating();
 
 

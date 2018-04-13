@@ -20,16 +20,14 @@ const store = (function () {
     };
 
     const switchCreating = function () {
-        console.log(this.creatingState);
         this.creatingState = !this.creatingState;
-        console.log(this.creatingState);
     };
 
 
     return {
         items: [],
         creatingState: false,
-        filterLevel: null,
+        filterLevel: 1,
         createFormChecker: true,
 
         addItem,
