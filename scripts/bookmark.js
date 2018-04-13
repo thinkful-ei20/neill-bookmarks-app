@@ -92,13 +92,12 @@ const bookmarkList = (function () {
             const description = $('.create-description').val();
             const rating = $('.create-rating').val();
 
-
             if (store.items) {
                 const formData = {
-                    title,
-                    url,
-                    desc,
-                    rating,
+                    'title': title,
+                    'url': url,
+                    'desc': description,
+                    'rating': rating
                 };
 
                 console.log(formData);
