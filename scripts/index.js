@@ -1,7 +1,7 @@
 'use strict';
 /* global bookmarkList store api $*/
 
-$(document).ready(function () {
+$(document).ready(function() {
     bookmarkList.bindEventListeners();
     bookmarkList.render();
 

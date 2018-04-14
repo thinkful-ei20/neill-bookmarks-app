@@ -1,7 +1,7 @@
 'use strict';
-/* global  $ api api store */
+/* global  $ api store */
 // eslint-disable-next-line no-unused-vars
-const bookmarkList = (function () {
+const bookmarkList = (function() {
 
     function generateItemElement(item) {
         return `
@@ -39,19 +39,19 @@ const bookmarkList = (function () {
     }
 
     function render() {
+
         let items = store.items;
-        const checkCreatState = generateCreateBookmarkForm();
+        const checkingState = generateCreateBookmarkForm();
 
         if (store.creatingState) {
-            $('.create-form').html(checkCreatState);
+            $('.create-form').html(checkingState);
         }
 
-        console.log('render ran');
+        // reassign items 42-50 new smaller (filtered array) is what gets filtered -> rendered
+        items = items.filter(element => element.rating >= store.filterLevel);
+
         const bookmarkListString = generateBookmarkItemsString(items);
         $('.js-bookmark-list').html(bookmarkListString);
-
-        // reassign items 42-50 new smaller (filtered array) is what gets filtered -> rendered
-
 
     }
 
@@ -60,7 +60,6 @@ const bookmarkList = (function () {
         $('.js-bookmark-list').on('click', '.js-title', event => {
             const id = getItemIdFromElement(event.currentTarget);
             store.toggleState(id);
-            console.log(`${id} clicked`);
             render();
         });
     }
@@ -68,7 +67,6 @@ const bookmarkList = (function () {
     function handleDelete() {
         $('.js-bookmark-list').on('click', '.js-delete-button', event => {
             const id = getItemIdFromElement(event.currentTarget);
-            console.log('Delete button clicked');
             api.deleteBookmark(id, () => {
                 store.deleteBookmarkStore(id);
                 render();
@@ -79,18 +77,15 @@ const bookmarkList = (function () {
     function handleCreateBookmark() {
         $('.container').on('click', '.create-bookmark', event => {
             event.preventDefault();
-            console.log('handleCreateBookmark ran');
             store.switchCreating();
             render();
         });
     }
 
-    // verifyFormSubmit
 
     function handleCreateFormSubmit() {
         $('.container').on('click', '.create-submit-button', event => {
             event.preventDefault();
-            console.log('handleCreateFormSubmit ran');
             const title = $('.create-title').val();
             const url = $('.create-url').val();
             const description = $('.create-description').val();
@@ -104,9 +99,8 @@ const bookmarkList = (function () {
                     'rating': rating
                 };
 
-                console.log(formData);
 
-                const refresh = function () {
+                const refresh = function() {
                     api.getItems(store.switchCreating());
                 };
                 render();
@@ -135,7 +129,6 @@ const bookmarkList = (function () {
         });
     }
 
-
     function bindEventListeners() {
         handleToggleCollapsed();
         getItemIdFromElement();
@@ -145,10 +138,10 @@ const bookmarkList = (function () {
         handleCreateFormSubmit();
         filterByRating();
 
+        // error 
 
     }
 
-    // This object contains the only exposed methods from this module:
     return {
         render: render,
         bindEventListeners: bindEventListeners,
