@@ -1,7 +1,7 @@
 'use strict';
 /* global  $ api store */
 // eslint-disable-next-line no-unused-vars
-const bookmarkList = (function() {
+const bookmarkList = (function () {
 
     function generateItemElement(item) {
         return `
@@ -20,18 +20,20 @@ const bookmarkList = (function() {
     function generateCreateBookmarkForm() {
         return `
     <form class='js-create-form'>
-      <input class='create-title' type='text' placeholder='Bookmark Title'>
-      <input class='create-url' type='text' placeholder='http://'>
-      <input class='create-description' type='text' placeholder='Detailed Description'>
-      <select name='rating' class='create-rating'>
-          <option value='1'>1 star</option><option value='2'>2 stars</option><option value='3'>3 stars</option><option value='4'>4 stars</option><option value='5'>5 stars</option>
-        </select>
+      <label>Title<input class='create-title' required type='text' placeholder='AOL'></label>
+      <label>Site Address<input class='create-url' required type='url' placeholder='https://www.aol.com'></label>
+      <label>Description<input class='create-description' required type='text' placeholder="You've got mail!"></label>
+      <label>Rating<select name='rating' class='create-rating'>
+          <option value='5'>5 stars</option>
+          <option value='4'>4 stars</option>
+          <option value='3'>3 stars</option>
+          <option value='2'>2 stars</option>
+          <option value='1'>1 star</option>
+        </select></label>
       <button class='create-submit-button'>Add New Bookmark</button>
     </form>
     `;
     }
-
-    // error checking on submit
 
     function generateBookmarkItemsString(bookmarkList) {
         const items = bookmarkList.map((item) => generateItemElement(item));
@@ -47,7 +49,6 @@ const bookmarkList = (function() {
             $('.create-form').html(checkingState);
         }
 
-        // reassign items 42-50 new smaller (filtered array) is what gets filtered -> rendered
         items = items.filter(element => element.rating >= store.filterLevel);
 
         const bookmarkListString = generateBookmarkItemsString(items);
@@ -84,7 +85,7 @@ const bookmarkList = (function() {
 
 
     function handleCreateFormSubmit() {
-        $('.container').on('click', '.create-submit-button', event => {
+        $('.container').on('submit', 'form', event => {
             event.preventDefault();
             const title = $('.create-title').val();
             const url = $('.create-url').val();
@@ -100,19 +101,28 @@ const bookmarkList = (function() {
                 };
 
 
-                const refresh = function() {
-                    api.getItems(store.switchCreating());
+                const refresh = function () {
+                    api.getItems((items) => {
+                        store.items = [];
+                        items.forEach((item) => store.addItem(item));
+                        render();
+
+                    });
                 };
-                render();
+
                 api.createBookmark(formData, refresh);
 
             } else {
                 store.createFormChecker = false;
                 render();
             }
-            // need to have render run after button submit
         });
     }
+
+    // api.getItems((items) => {
+    //     store.items = [];
+    //     items.forEach((item) => store.addItem(item));
+    //     render();
 
     function getItemIdFromElement(item) {
         return $(item)
@@ -121,7 +131,7 @@ const bookmarkList = (function() {
     }
 
     function filterByRating() {
-        $('.container').on('click', '.select-rating-filter', event => {
+        $('.createNewAndFilter').on('click', '.select-rating-filter', event => {
             const filterValue = +$('.select-rating-filter option:selected').val();
             store.filterLevel = filterValue;
             render();
@@ -138,7 +148,6 @@ const bookmarkList = (function() {
         handleCreateFormSubmit();
         filterByRating();
 
-        // error 
 
     }
 

@@ -10,13 +10,16 @@
 </head>
 
 
-
 <body>
-    <div class="container">
+    <main role="main" class="container">
         <h1>Bookmark App</h1>
         <form class="createNewAndFilter">
+
+            <!-- add labels -->
+
             <button type="submit" class="create-bookmark">Add New</button>
             <select name="rating" class="select-rating-filter">
+
                 <option selected disabled>Filter by Rating</option>
                 <option value="4">4 &amp; Up</option>
                 <option value="3">3 &amp; Up</option>
@@ -24,11 +27,11 @@
                 <option value="1">1 &amp; Up</option>
             </select>
         </form>
-        <div class="create-form"></div>
+        <section class="region create-form"></section>
         <ul class="bookmark-list js-bookmark-list">
-            <form></form>
+
         </ul>
-    </div>
+    </main>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="scripts/store.js"></script>
     <script type="text/javascript" src="scripts/bookmark.js"></script>
