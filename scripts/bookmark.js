@@ -67,11 +67,14 @@ const bookmarkList = (function () {
 
     function handleDelete() {
         $('.js-bookmark-list').on('click', '.js-delete-button', event => {
-            const id = getItemIdFromElement(event.currentTarget);
-            api.deleteBookmark(id, () => {
-                store.deleteBookmarkStore(id);
-                render();
-            });
+            if (confirm('Are you sure?') ) {
+                const id = getItemIdFromElement(event.currentTarget);
+                api.deleteBookmark(id, () => {
+                    store.deleteBookmarkStore(id);
+                    render();
+            
+                });
+            } 
         });
     }
 
@@ -119,10 +122,6 @@ const bookmarkList = (function () {
         });
     }
 
-    // api.getItems((items) => {
-    //     store.items = [];
-    //     items.forEach((item) => store.addItem(item));
-    //     render();
 
     function getItemIdFromElement(item) {
         return $(item)
@@ -131,7 +130,7 @@ const bookmarkList = (function () {
     }
 
     function filterByRating() {
-        $('.createNewAndFilter').on('click', '.select-rating-filter', event => {
+        $('.createNewAndFilter').on('change', '.select-rating-filter', event => {
             const filterValue = +$('.select-rating-filter option:selected').val();
             store.filterLevel = filterValue;
             render();
